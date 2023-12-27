@@ -1,0 +1,26 @@
+{
+  "name": "nasa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compileTs": "cd server && tsc -w ",
+    "runJs": " cd server &&  npm run watch ",
+    "server": "npm-run-all --parallel compileTs runJs ",
+    "client": " cd client && npm run start ",
+    "watch": "npm-run-all --parallel   client server",
+    "build-client": "cd client && npm run build",
+    "deploy": "npm run build-client && cd server && npm run start"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.3",
+    "morgan": "^1.10.0"
+  }
+}
