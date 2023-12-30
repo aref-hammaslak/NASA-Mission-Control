@@ -1,11 +1,11 @@
 import {Response , Request} from 'express';
-import { launches , Launch, addNewLaunch, existsLaunchWithID, abortLaunch } from '../models/launches.model';
+import { launches , Launch, addNewLaunch, existsLaunchWithID, abortLaunch, getAllLaunches } from '../models/launches.model';
 
-function httpGetAllLaunches(req:Request,res:Response){
-  res.status(200).json(Array.from(launches.values()));
+async function httpGetAllLaunches(req:Request,res:Response){
+  res.status(200).json(await getAllLaunches());
 }
 
-function httpAddNewLaunch(req:Request, res:Response){
+async function httpAddNewLaunch(req:Request, res:Response){
   const launch:Launch = req.body;
   if(!launch.mission || !launch.mission || !launch.target ){
     return res.status(400).json({
@@ -19,7 +19,7 @@ function httpAddNewLaunch(req:Request, res:Response){
     })
   }
 
-  addNewLaunch(launch);
+  await addNewLaunch(launch);
   return res.status(201).json(launch);
 }
 

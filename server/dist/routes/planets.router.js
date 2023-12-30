@@ -29,4 +29,4 @@ const planets_controller_1 = require("./planets.controller");
 const planetsRouter = express.Router();
 exports.planetsRouter = planetsRouter;
 //URL: hhtp://localhost:8000/planets
-planetsRouter.get('/', planets_controller_1.getAllplanets);
+planetsRouter.get('/', planets_controller_1.httpGetAllplanets);

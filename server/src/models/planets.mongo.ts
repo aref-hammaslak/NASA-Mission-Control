@@ -6,6 +6,6 @@ const planetsSchema = new Schema({
     type: String,
     required: true,
   }
-})
+});
 
 export const planets = model('Planet', planetsSchema);

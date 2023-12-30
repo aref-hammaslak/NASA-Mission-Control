@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllplanets = void 0;
+exports.httpGetAllplanets = void 0;
 const planets_model_1 = require("../models/planets.model");
-function getAllplanets(req, res) {
-    return res.status(200).json(planets_model_1.planets);
+async function httpGetAllplanets(req, res) {
+    return res.status(200).json(await (0, planets_model_1.getAllPlanets)());
 }
-exports.getAllplanets = getAllplanets;
+exports.httpGetAllplanets = httpGetAllplanets;

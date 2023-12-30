@@ -3,11 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadPlanetsData = exports.planets = void 0;
+exports.getAllPlanets = exports.loadPlanetsData = void 0;
 const csv_parse_1 = require("csv-parse");
 const fs_1 = __importDefault(require("fs"));
-const habitablePlanets = [];
-exports.planets = habitablePlanets;
+const planets_mongo_1 = require("./planets.mongo");
 function isHabitablePlanet(planet) {
     return (planet["koi_disposition"] === "CONFIRMED" &&
         planet["koi_insol"] > 0.36 &&
@@ -21,9 +20,9 @@ function loadPlanetsData() {
             comment: "#",
             columns: true,
         }))
-            .on("data", (data) => {
+            .on("data", async (data) => {
             if (isHabitablePlanet(data)) {
-                habitablePlanets.push(data);
+                await savePlanet(data);
             }
         })
             .on("error", (err) => {
@@ -36,3 +35,25 @@ function loadPlanetsData() {
     });
 }
 exports.loadPlanetsData = loadPlanetsData;
+async function getAllPlanets() {
+    return await planets_mongo_1.planets.find({}, {
+        "_id": 0,
+        "__v": 0,
+    });
+}
+exports.getAllPlanets = getAllPlanets;
+async function savePlanet(planet) {
+    try {
+        await planets_mongo_1.planets.updateOne({
+            keplerName: planet.kepler_name,
+        }, {
+            keplerName: planet.kepler_name,
+        }, {
+            upsert: true
+        });
+    }
+    catch (err) {
+        console.error(`Could not save planet ${err}`);
+        throw err;
+    }
+}

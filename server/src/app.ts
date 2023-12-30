@@ -7,10 +7,13 @@ import { lauchesRouter } from './routes/launches.router';
 
 const app = express.default();
 
+//coross origin when client is running on its own server
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
-app.use(morgan('combined'));
+
+//middleware for logging requstes
+//app.use(morgan('combined'));
 
 app.use(express.json());
 

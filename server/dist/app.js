@@ -31,14 +31,15 @@ const express = __importStar(require("express"));
 const planets_router_1 = require("./routes/planets.router");
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
-const morgan_1 = __importDefault(require("morgan"));
 const launches_router_1 = require("./routes/launches.router");
 const app = express.default();
 exports.app = app;
+//coross origin when client is running on its own server
 app.use((0, cors_1.default)({
     origin: 'http://localhost:3000'
 }));
-app.use((0, morgan_1.default)('combined'));
+//middleware for logging requstes
+//app.use(morgan('combined'));
 app.use(express.json());
 // serving front-end with url: 'http://localhost:8000
 app.use(express.static(path_1.default.join(__dirname, '..', 'public')));
