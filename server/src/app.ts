@@ -1,9 +1,8 @@
 import * as express from 'express';
-import { planetsRouter } from './routes/planets.router';
 import cors from 'cors';
 import path from 'path';
 import morgan from 'morgan';
-import { lauchesRouter } from './routes/launches.router';
+import { api } from './routes/api';
 
 const app = express.default();
 
@@ -20,9 +19,8 @@ app.use(express.json());
 // serving front-end with url: 'http://localhost:8000
 app.use(express.static(path.join(__dirname,'..','public')))
 
+app.use('/v1', api);
 
-app.use('/planets',planetsRouter);
-app.use('/launches' , lauchesRouter);
 app.get('/*',(req, res ) => {
   res.sendFile(path.resolve('./public/index.html'));
 })

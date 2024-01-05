@@ -28,10 +28,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 const express = __importStar(require("express"));
-const planets_router_1 = require("./routes/planets.router");
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
-const launches_router_1 = require("./routes/launches.router");
+const api_1 = require("./routes/api");
 const app = express.default();
 exports.app = app;
 //coross origin when client is running on its own server
@@ -43,8 +42,7 @@ app.use((0, cors_1.default)({
 app.use(express.json());
 // serving front-end with url: 'http://localhost:8000
 app.use(express.static(path_1.default.join(__dirname, '..', 'public')));
-app.use('/planets', planets_router_1.planetsRouter);
-app.use('/launches', launches_router_1.lauchesRouter);
+app.use('/v1', api_1.api);
 app.get('/*', (req, res) => {
     res.sendFile(path_1.default.resolve('./public/index.html'));
 });

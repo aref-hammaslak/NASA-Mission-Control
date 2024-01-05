@@ -15,17 +15,17 @@ const launch = {
     upcoming: true,
     success: true,
 };
-(async () => {
-    await saveLaunch(launch);
-})();
+// (async () => {
+//   await saveLaunch(launch);
+// })();
 async function saveLaunch(launch) {
     const planet = await planets_mongo_1.planets.findOne({
         keplerName: launch.target,
     });
     if (!planet)
-        throw new Error('No matchin planet found');
+        throw new Error("No match in planets found");
     try {
-        await launches_mongo_1.launches.updateOne({
+        await launches_mongo_1.launches.findOneAndUpdate({
             flightNumber: launch.flightNumber,
         }, launch, {
             upsert: true,
@@ -36,25 +36,30 @@ async function saveLaunch(launch) {
     }
 }
 async function getLatestFlightNumber() {
-    const latestLaunch = await launches_mongo_1.launches
-        .findOne()
-        .sort('-flightNumber');
-    return latestLaunch ? latestLaunch.flightNumber : DEFAULT_FLIGHT_NUMBER;
+    const latestLaunch = await launches_mongo_1.launches.findOne().sort("-flightNumber");
+    return latestLaunch
+        ? latestLaunch.flightNumber
+        : DEFAULT_FLIGHT_NUMBER;
 }
 async function existsLaunchWithID(id) {
-    return ((await launches_mongo_1.launches.findOne({
+    return (await launches_mongo_1.launches.findOne({
         flightNumber: id,
-    })) && true);
+    }));
 }
 exports.existsLaunchWithID = existsLaunchWithID;
 async function addNewLaunch(newLaunch) {
-    const nextFlightNumber = +await getLatestFlightNumber() + 1;
-    await saveLaunch(Object.assign(newLaunch, {
-        success: true,
-        upcoming: true,
-        customers: ["Aref", "NASA"],
-        flightNumber: nextFlightNumber,
-    }));
+    try {
+        const nextFlightNumber = +(await getLatestFlightNumber()) + 1;
+        await saveLaunch(Object.assign(newLaunch, {
+            success: true,
+            upcoming: true,
+            customers: ["Aref", "NASA"],
+            flightNumber: nextFlightNumber,
+        }));
+    }
+    catch (error) {
+        throw error;
+    }
 }
 exports.addNewLaunch = addNewLaunch;
 async function getAllLaunches() {
@@ -69,16 +74,17 @@ async function abortLaunch(id) {
     try {
         aborted = (await launches_mongo_1.launches.findOne({
             flightNumber: id,
+        }, {
+            '_id': 0,
+            '__v': 0,
         }));
-        const updateRes = await launches_mongo_1.launches.updateMany({
+        const updateRes = await launches_mongo_1.launches.updateOne({
             flightNumber: id,
         }, {
-            $set: {
-                upcoming: false,
-                success: false,
-            },
+            upcoming: false,
+            success: false,
         });
-        console.log(updateRes);
+        console.log('updateRes :', updateRes);
     }
     catch (error) {
         throw error;

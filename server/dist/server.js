@@ -22,31 +22,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const http = __importStar(require("http"));
 const app_1 = require("./app");
-const mongoose_1 = __importDefault(require("mongoose"));
 const planets_model_1 = require("./models/planets.model");
-require("inspector").close();
+const mongo_1 = require("./services/mongo");
 const PORT = process.env.PORT || 8000;
-const MONGO_PASS = "Vg8Wz8vEdhzNy6KS";
-const MONGO_URL = `mongodb+srv://arefhammaslak:${MONGO_PASS}@nasacluster.wx2xgbj.mongodb.net/?retryWrites=true&w=majority`;
 const server = http.createServer(app_1.app);
-mongoose_1.default.connection.on("open", () => {
-    console.log("MongoDB connection ready!");
-});
-mongoose_1.default.connection.on("error", (error) => {
-    console.log(error);
-});
 (async () => {
     try {
-        await mongoose_1.default.connect(MONGO_URL);
+        await (0, mongo_1.mongoConnect)();
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
     }
     await (0, planets_model_1.loadPlanetsData)();
     server.listen(PORT, () => {
