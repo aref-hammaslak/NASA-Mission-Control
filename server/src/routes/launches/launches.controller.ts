@@ -1,4 +1,5 @@
-import { Response, Request } from "express";
+import { Response, Request,  } from "express";
+import { Query } from '../../services/query';
 import {
   launches,
   Launch,
@@ -7,9 +8,13 @@ import {
   abortLaunch,
   getAllLaunches,
 } from "../../models/launches.model";
+import { getPagination } from "../../services/query";
 
-async function httpGetAllLaunches(req: Request, res: Response) {
-  res.status(200).json(await getAllLaunches());
+async function httpGetAllLaunches(req: Request<{}, {}, {}, Query>, res: Response) {
+ 
+  const {limit, skip}= getPagination(req.query as Query);
+  const launches = await getAllLaunches(skip, limit)
+  res.status(200).json(launches);
 }
 
 async function httpAddNewLaunch(req: Request, res: Response) {

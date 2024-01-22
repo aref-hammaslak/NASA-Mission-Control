@@ -8,8 +8,7 @@ import { lauchesRouter } from './launches/launches.router';
 const api = express.Router();
 
 api.use('/planets',planetsRouter);
-api.use('/launches',lauchesRouter);
-
+api.use('/launches',lauchesRouter);                                                                                                 
 export{
   api
 }

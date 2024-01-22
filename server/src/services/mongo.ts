@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
+require('dotenv').config();
 
 
-const MONGO_PASS = "Vg8Wz8vEdhzNy6KS";
-const MONGO_URL = `mongodb+srv://arefhammaslak:${MONGO_PASS}@nasacluster.wx2xgbj.mongodb.net/?retryWrites=true&w=majority`;
+const MONGO_URL = process.env.MONGO_URL as string;
 
 
 mongoose.connection.on("open", () => {

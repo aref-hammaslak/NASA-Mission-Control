@@ -1,5 +1,6 @@
 import * as http from "http";
 import { app } from "./app";
+import { loadLaunchesData } from "./models/launches.model";
 import { loadPlanetsData } from "./models/planets.model";
 import { mongoConnect } from "./services/mongo";
 
@@ -18,6 +19,7 @@ const server = http.createServer(app);
     console.error(error);
   }
   await loadPlanetsData();
+  await loadLaunchesData();
   server.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`);
 
