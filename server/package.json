@@ -26,6 +26,7 @@
     "csv-parse": "^5.5.2",
     "express": "^4.18.2",
     "mongoose": "^8.0.3",
+    "nasa": "file:..",
     "nodemon": "^3.0.1"
   },
   "preset": "ts-jest",
