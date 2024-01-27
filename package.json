@@ -12,7 +12,11 @@
     "build-client-linux": "npm run build --preifix",
     "build-client": "cd client && npm run build",
     "deploy": "npm run build-client && cd server && npm run start",
-    "install-deps": "npm install --prefix client && npm install --prefix server && npm install"
+    "install-deps": "npm install --prefix client && npm install --prefix server && npm install",
+    "test-client": "cd client && npm test",
+    "test-server": "cd server && npm test",
+    "test": "npm run test-client && npm run test-server"
+
 
   },
   "author": "",
