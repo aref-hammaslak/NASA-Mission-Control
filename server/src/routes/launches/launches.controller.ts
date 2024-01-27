@@ -24,13 +24,13 @@ async function httpAddNewLaunch(req: Request, res: Response) {
       error: "missing required launch property",
     });
   }
-  
-  if (launch.launchDate.toString() === "Invalid Date") {
+  console.log(new Date(launch.launchDate).toString());
+  if (new Date(launch.launchDate).toString() === 'Invalid Date') {
     return res.status(400).json({
       error: "Invalid launch date",
     });
   }
-  console.log(launch.launchDate.toString());
+  
   try {
     await addNewLaunch(launch);
     return res.status(201).json(launch);

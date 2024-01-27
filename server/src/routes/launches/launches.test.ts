@@ -1,10 +1,13 @@
 import request from "supertest";
 import { app } from "../../app";
+import { loadLaunchesData } from "../../models/launches.model";
+import { loadPlanetsData } from "../../models/planets.model";
 import { mongoConnect, mongoDisconnect } from "../../services/mongo";
 
 describe("Launches API", () => {
   beforeAll(async () => {
     await mongoConnect();
+    // await loadPlanetsData();
   });
 
   afterAll(async () => {
@@ -25,6 +28,7 @@ describe("Launches API", () => {
       mission: "USS Enterprise",
       rocket: "NCC 1701-D",
       target: "Kepler-62 f",
+
     };
 
     const completeLaunchData = {
@@ -80,7 +84,7 @@ describe("Launches API", () => {
         .post("/v1/launches")
         .send({
           ...completLaunchDataWithoutDate,
-           launchDate: "iorqhjkf",
+           launchDate: 'iorqhjkf',
  
         })
         .expect("Content-Type", /json/)

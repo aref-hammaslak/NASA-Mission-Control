@@ -68,12 +68,14 @@ async function populateLaunch() {
       upcoming: launchDoc["upcoming"],
       success: launchDoc["success"],
     };
-    console.log(`${launch.flightNumber} ${launch.mission}`);
+    
     await saveLaunch(launch);
   });
 }
 
 async function loadLaunchesData() {
+
+  //Gaurd check
   const alreadyLoaded = await findLaunch({
     flightNumber: 1,
     rocket: "Falcon",
@@ -85,6 +87,7 @@ async function loadLaunchesData() {
     )
     return;
   };
+
   await populateLaunch();
 }
 

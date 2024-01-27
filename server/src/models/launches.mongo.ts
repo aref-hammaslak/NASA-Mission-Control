@@ -10,8 +10,8 @@ const launchSchema = new Schema<Launch>({
   rocket: { type: String, required: true },
   launchDate: { type: Date, required: true },
   target: { type: String , required: false},
-  upcoming: { type: Boolean, required: true},
-  success: { type: Boolean, required: true, default: true},
+  upcoming: { type: Boolean, default: true},
+  success: { type: Boolean,},
 
 });
 
