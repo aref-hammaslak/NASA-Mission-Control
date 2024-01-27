@@ -74,6 +74,8 @@ async function populateLaunch() {
 }
 
 async function loadLaunchesData() {
+
+  //Gaurd check
   const alreadyLoaded = await findLaunch({
     flightNumber: 1,
     rocket: "Falcon",
@@ -85,6 +87,7 @@ async function loadLaunchesData() {
     )
     return;
   };
+  
   await populateLaunch();
 }
 
