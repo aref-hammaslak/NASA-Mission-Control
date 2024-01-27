@@ -87,7 +87,6 @@ async function loadLaunchesData() {
     )
     return;
   };
-
   await populateLaunch();
 }
 
