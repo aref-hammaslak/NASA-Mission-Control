@@ -17,13 +17,21 @@ app.use(cors({
 app.use(express.json());
 
 // serving front-end with url: 'http://localhost:8000
-app.use(express.static(path.join(__dirname,'..','public')))
+app.use(express.static(path.join(__dirname, '..', 'plc')))
 
 app.use('/v1', api);
 
 
 app.get('/*',(req, res ) => {
-  res.sendFile(path.resolve('./public/index.html'));
+  // const indexPath = path.join(__dirname, '..', 'public', 'index.html');
+  const indexPath = path.resolve('./plc/index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error(`Error sending file: ${indexPath}`);
+      console.error(err);
+      
+    }
+  });
 })
  
 
